@@ -1,0 +1,149 @@
+<div class="container mt-4 fade-in">
+	<div class="card shadow border-0">
+		<div class="card-header bg-dark-bank text-white p-3">
+			<h4 class="mb-0">Cadastro de Cliente</h4>
+		</div>
+		<div class="card-body">
+			<form [formGroup]="clienteForm" (ngSubmit)="salvar()">
+				<div class="row">
+
+					<div class="col-md-5 mb-3">
+						<label class="fw-bold">Nome</label>
+						<input type="text" class="form-control" formControlName="nome"
+							[ngClass]="{'is-invalid': clienteForm.get('nome')?.touched && clienteForm.get('nome')?.invalid}">
+						<small class="error-text" *ngIf="clienteForm.get('nome')?.touched && clienteForm.get('nome')?.invalid">O nome completo (mínimo 10 letras) é obrigatório.</small>
+					</div>
+
+					<div class="col-md-3 mb-3">
+						<label class="fw-bold">CPF</label>
+						<input type="text" class="form-control" formControlName="cpf" maxlength="14" (input)="formatarCpf($event)"
+							[ngClass]="{'is-invalid': clienteForm.get('cpf')?.invalid && clienteForm.get('cpf')?.touched}">
+						<div class="error-text" *ngIf="clienteForm.get('cpf')?.invalid && clienteForm.get('cpf')?.touched">
+							<small *ngIf="clienteForm.get('cpf')?.hasError('required')">O CPF é obrigatório.</small>
+							<small *ngIf="clienteForm.get('cpf')?.hasError('cpfInvalido')">Este CPF não é válido.</small>
+						</div>
+					</div>
+
+					<div class="col-md-4 mb-3">
+						<label class="fw-bold">E-mail</label>
+						<input type="email" class="form-control" formControlName="email"
+							[ngClass]="{'is-invalid': clienteForm.get('email')?.touched && clienteForm.get('email')?.invalid}">
+						<small class="error-text"
+							*ngIf="clienteForm.get('email')?.touched && clienteForm.get('email')?.invalid">Informe um e-mail
+							válido.</small>
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-3 mb-3">
+						<label class="fw-bold">Senha</label>
+						<input type="password" class="form-control" formControlName="senha"
+							[ngClass]="{'is-invalid': clienteForm.get('senha')?.touched && clienteForm.get('senha')?.invalid}">
+						<small class="error-text" *ngIf="clienteForm.get('senha')?.touched && clienteForm.get('senha')?.invalid">A senha deve ter pelo menos 6 caracteres.</small>
+					</div>
+				</div>
+
+				<div formGroupName="enderecoCliente" class="mt-4">
+					<h5 class="section-title">Endereço Residencial</h5>
+
+					<div class="row">
+						<div class="col-md-3 mb-3">
+							<label class="fw-bold">CEP</label>
+							<input type="text" class="form-control" formControlName="cep" (blur)="consultarCep()"
+								[ngClass]="{'is-invalid': clienteForm.get('enderecoCliente.cep')?.touched && clienteForm.get('enderecoCliente.cep')?.invalid}">
+							<small class="error-text"
+								*ngIf="clienteForm.get('enderecoCliente.cep')?.touched && clienteForm.get('enderecoCliente.cep')?.invalid">CEP
+								obrigatório.</small>
+						</div>
+
+						<div class="col-md-7 mb-3">
+							<label class="fw-bold">Logradouro</label>
+							<input type="text" class="form-control" formControlName="logradouro"
+								[ngClass]="{'is-invalid': clienteForm.get('enderecoCliente.logradouro')?.touched && clienteForm.get('enderecoCliente.logradouro')?.invalid}">
+							<small class="error-text"
+								*ngIf="clienteForm.get('enderecoCliente.logradouro')?.touched && clienteForm.get('enderecoCliente.logradouro')?.invalid">Rua
+								é obrigatória.</small>
+						</div>
+
+						<div class="col-md-2 mb-3">
+							<label class="fw-bold">Nº</label>
+							<input type="text" class="form-control" formControlName="numero"
+								[ngClass]="{'is-invalid': clienteForm.get('enderecoCliente.numero')?.touched && clienteForm.get('enderecoCliente.numero')?.invalid}">
+							<small class="error-text"
+								*ngIf="clienteForm.get('enderecoCliente.numero')?.touched && clienteForm.get('enderecoCliente.numero')?.invalid">Obrigatório.</small>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4 mb-3">
+							<label class="fw-bold">Complemento</label>
+							<input type="text" class="form-control" formControlName="complemento" placeholder="Apto, Bloco, etc.">
+						</div>
+
+						<div class="col-md-4 mb-3">
+							<label class="fw-bold">Bairro</label>
+							<input type="text" class="form-control" formControlName="bairro"
+								[ngClass]="{'is-invalid': clienteForm.get('enderecoCliente.bairro')?.touched && clienteForm.get('enderecoCliente.bairro')?.invalid}">
+							<small class="error-text"
+								*ngIf="clienteForm.get('enderecoCliente.bairro')?.touched && clienteForm.get('enderecoCliente.bairro')?.invalid">Bairro
+								obrigatório.</small>
+						</div>
+
+						<div class="col-md-4 mb-3">
+							<label class="fw-bold">Cidade</label>
+							<input type="text" class="form-control" formControlName="cidade"
+								[ngClass]="{'is-invalid': clienteForm.get('enderecoCliente.cidade')?.touched && clienteForm.get('enderecoCliente.cidade')?.invalid}">
+							<small class="error-text"
+								*ngIf="clienteForm.get('enderecoCliente.cidade')?.touched && clienteForm.get('enderecoCliente.cidade')?.invalid">Cidade
+								obrigatória.</small>
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-md-2 mb-3">
+							<label class="fw-bold">Estado (UF)</label>
+							<input type="text" class="form-control" formControlName="estado" maxlength="2" placeholder="Ex: SP"
+								[ngClass]="{'is-invalid': clienteForm.get('enderecoCliente.estado')?.touched && clienteForm.get('enderecoCliente.estado')?.invalid}">
+							<small class="error-text"
+								*ngIf="clienteForm.get('enderecoCliente.estado')?.touched && clienteForm.get('enderecoCliente.estado')?.invalid">UF
+								obrigatória.</small>
+						</div>
+					</div>
+				</div>
+
+				<div formGroupName="conta" class="mt-4">
+					<h5 class="section-title">Dados da Conta Bancária</h5>
+					<div class="row">
+						<div class="col-md-5 mb-3" formGroupName="agencia">
+							<label class="fw-bold">Agência</label>
+							<select class="form-select" formControlName="id">
+								<option value="">Selecione a Agência...</option>
+								<option *ngFor="let ag of agencias" [value]="ag.id">
+									{{ ag.numeroAgencia }} - {{ ag.nome }}
+								</option>
+							</select>
+						</div>
+
+						<div class="col-md-5 mb-3">
+							<label class="fw-bold">Número da Conta</label>
+							<input type="text" class="form-control" formControlName="numeroConta" placeholder="Ex: 12345">
+						</div>
+
+						<div class="col-md-2 mb-3">
+							<label class="fw-bold">Dígito</label>
+							<input type="text" class="form-control" formControlName="digito" maxlength="1">
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex justify-content-end gap-2 mt-4 pb-3">
+					<button type="button" class="btn btn-outline-secondary" (click)="cancelar()">Cancelar</button>
+					<button type="submit" class="btn btn-primary px-5">Salvar Cliente</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

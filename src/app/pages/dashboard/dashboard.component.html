@@ -1,0 +1,76 @@
+<div class="d-flex" id="wrapper">
+	<div class="bg-dark-bank border-right" id="sidebar-wrapper">
+		<div class="sidebar-heading">
+			<i class="bi bi-shield-lock-fill me-2"></i>
+			Belem<span> Bank</span>
+		</div>
+
+		<div class="list-group list-group-flush">
+			<small class="text-muted px-3 mt-4 mb-2">ADMINISTRAÇÃO</small>
+			<a (click)="navigate('perfil')" class="list-group-item list-group-item-action">
+				<i class="bi bi-person-badge me-2"></i> Meu Perfil
+			</a>
+
+			<small class="text-muted px-3 mt-4 mb-2">CONTROLE</small>
+			<a (click)="navigate('agencia')" class="list-group-item list-group-item-action">
+				<i class="bi bi-gear me-2"></i> Gerenciar Agências
+			</a>
+			<a (click)="navigate('cadastrar-cliente')" class="list-group-item list-group-item-action">
+				<i class="bi bi-person-plus me-2"></i> Novo Cliente
+			</a>
+			<a (click)="navigate('listar-clientes')" class="list-group-item list-group-item-action">
+				<i class="bi bi-people me-2"></i> Listar Clientes
+			</a>
+		</div>
+
+		<div class="logout-footer">
+			<button class="btn btn-outline-danger w-100" (click)="logout()">
+				<i class="bi bi-power me-2"></i> SAIR
+			</button>
+		</div>
+	</div>
+
+	<div id="page-content-wrapper">
+		<header class="p-4 shadow-sm bg-white mb-4 border-bottom header-admin">
+			<div class="container-fluid">
+				<div class="row align-items-center">
+					<div class="col-md-4 border-end">
+						<h2 class="welcome-text mb-1">BEM-VINDO, <span>{{ adminData?.name | uppercase }}</span></h2>
+						<p class="text-muted mb-0 small"><i class="bi bi-shield-check me-1"></i>Painel Administrativo
+							Belem Bank</p>
+					</div>
+
+					<div class="col-md-5">
+						<div class="d-flex justify-content-around">
+							<div class="d-flex align-items-center">
+								<div class="icon-box-sm success me-2"><i class="bi bi-cpu-fill"></i></div>
+								<div>
+									<small class="text-muted d-block label-micro">STATUS</small>
+									<span class="status-online">Operacional</span>
+								</div>
+							</div>
+							<div class="d-flex align-items-center">
+								<div class="icon-box-sm warning me-2"><i class="bi bi-hourglass-split"></i></div>
+								<div>
+									<small class="text-muted d-block label-micro">SESSÃO EXPIRA EM</small>
+									<span class="countdown">{{ countdownText }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-3 text-end">
+						<div class="date-time-box">
+							<div class="current-date">{{ currentDate }}</div>
+							<div class="current-time">{{ currentTime }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid px-4 fade-in">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>

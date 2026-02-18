@@ -1,0 +1,292 @@
+.text-brand {
+  color: #1e3a8a;
+}
+
+.bg-brand-main {
+  background-color: #1e3a8a;
+}
+
+.brand-color {
+  color: #1e3a8a;
+}
+
+.brand-badge {
+  background-color: #1e3a8a;
+}
+
+.text-navy {
+  color: #1e3a8a;
+}
+
+.header-font {
+  font-family: 'Share Tech Mono', monospace !important;
+}
+
+.client-body-bg {
+  background-color: #f0f7ff;
+}
+
+.session-label {
+  font-size: 0.6rem;
+}
+
+.date-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+}
+
+.time-text {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-radius: 15px;
+  color: white;
+}
+
+.welcome-text-client {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.welcome-text-client span {
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.info-card-custom {
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.card-extrato {
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+#secaoExtrato {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.info-card-custom {
+  background: linear-gradient(to bottom right, #ffffff, #f8faff);
+}
+
+.info-card-custom:hover {
+  transform: translateY(-5px);
+}
+
+.small-label {
+  letter-spacing: 1.5px;
+  font-size: 0.75rem;
+}
+
+.label-micro {
+  font-size: 0.65rem;
+}
+
+.data-group i {
+  font-size: 1.1rem;
+}
+
+.bg-light-brand {
+  background-color: #f0f7ff;
+}
+
+.border-brand-subtle {
+  border-color: #dbeafe !important;
+}
+
+.hr-brand {
+  margin: 1.5rem 0;
+  border-color: #1e3a8a;
+  opacity: 0.15;
+}
+
+.cep-badge {
+  background-color: #f0f2f5;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  font-size: 0.7rem;
+}
+
+.op-70 {
+  opacity: 0.7;
+}
+
+.btn-action-card {
+  background-color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-action-card:hover {
+  transform: translateY(-5px);
+  background-color: #f8faff;
+}
+
+.action-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.action-text {
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: #1e3a8a;
+}
+
+.bg-light-success {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+.bg-light-danger {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+.bg-light-brand {
+  background-color: #f0f7ff;
+  color: #3b82f6;
+}
+
+.modal-custom-radius {
+  border-radius: 20px;
+}
+
+.btn-brand-main {
+  background-color: #1e3a8a;
+  color: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-brand-main:hover {
+  background-color: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.transacao-item {
+  transition: background-color 0.2s;
+}
+
+.transacao-item:hover {
+  background-color: #f8faff;
+}
+
+.text-success {
+  color: #10b981 !important;
+}
+
+.text-danger {
+  color: #ef4444 !important;
+}
+
+.header-data {
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+}
+
+.transacao-linha {
+  font-size: 0.85rem;
+  transition: background-color 0.2s;
+}
+
+.transacao-linha:hover {
+  background-color: #f8faff;
+}
+
+.id-movimentacao {
+  font-size: 0.6rem;
+  font-family: 'Share Tech Mono', monospace;
+  padding: 0.2rem 0.4rem;
+}
+
+.desc-movimentacao {
+  max-width: 250px;
+}
+
+.subtotal-dia {
+  font-size: 0.75rem;
+}
+
+.label-micro {
+  font-size: 0.65rem;
+}
+
+.text-deposit {
+  color: #0d6efd !important;
+}
+
+.text-transfer-out {
+  color: #fd7e14 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-success {
+  color: #198754 !important;
+}
+
+.transacao-linha {
+  border-left: 4px solid transparent;
+}
+
+.transacao-linha:has(.text-deposit) {
+  border-left-color: #0d6efd;
+}
+
+.transacao-linha:has(.text-transfer-out) {
+  border-left-color: #fd7e14;
+}
+
+.transacao-linha:has(.text-danger) {
+  border-left-color: #dc3545;
+}
+
+.transacao-linha:has(.text-success) {
+  border-left-color: #198754;
+}
+
+.bg-subtotal {
+  background-color: #f8faff;
+  border-top: 1px dashed #dee2e6;
+}
+
+.label-subtotal {
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+}
+
+.subtotal-valor {
+  letter-spacing: -0.5px;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.fw-extrabold {
+  font-weight: 800;
+}
+
+.mb-4 {
+  margin-bottom: 2rem !important;
+}

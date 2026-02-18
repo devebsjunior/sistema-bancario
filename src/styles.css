@@ -1,0 +1,15 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 .bank-name, .p-button, .balance-value {
+    font-family: 'Share Tech Mono', monospace !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+input, .p-inputtext {
+    font-family: 'Inter', sans-serif !important;
+}

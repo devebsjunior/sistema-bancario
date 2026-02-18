@@ -1,0 +1,33 @@
+<div class="container-fluid fade-in">
+  <div class="row g-4">
+    
+    <div class="col-md-4">
+      <div class="status-card p-4 h-100">
+        <div class="d-flex align-items-center">
+          <div class="icon-box me-3 primary">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div>
+            <small class="text-muted fw-bold text-uppercase label-micro">Total de Clientes</small>
+            <h2 class="fw-bold mb-0 text-dark">{{ totalClientes | number }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="status-card p-4 h-100 shadow-sm border-0">
+        <div class="d-flex align-items-center">
+          <div class="icon-box me-3 info">
+            <i class="bi bi-building-fill"></i>
+          </div>
+          <div>
+            <small class="text-muted fw-bold text-uppercase label-micro">Agências Ativas</small>
+            <h2 class="fw-bold mb-0 text-dark">{{ totalAgencias }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="container-fluid mt-4 fade-in">
+  <div class="card shadow border-0">
+    <div class="card-header bg-dark-bank text-white d-flex justify-content-between align-items-center p-3">
+      <h4 class="mb-0 header-font text-uppercase">Clientes BelemBank</h4>
+      <button class="btn btn-primary btn-sm" (click)="novoCliente()">
+        <i class="bi bi-person-plus-fill me-2"></i>Novo Cliente
+      </button>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="list-group list-group-flush">
+        <div *ngFor="let c of clientes; let i = index" class="list-group-item p-4 list-item-hover">
+
+          <div class="d-flex w-100 justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+              <div class="avatar-circle me-3">
+                {{ c.nome.charAt(0).toUpperCase() }}
+              </div>
+              <div>
+                <h5 class="mb-0 fw-bold text-navy text-uppercase">
+                  {{ c.nome }}
+                  <span class="badge badge-cpf ms-2">CPF: {{ c.cpf }}</span>
+                </h5>
+                <small class="text-muted"><i class="bi bi-envelope me-1"></i>{{ c.email }}</small>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-sm btn-light border text-primary fw-bold" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#detalhes' + i">
+                <i class="bi bi-info-circle me-1"></i>DETALHES
+              </button>
+
+              <button class="btn btn-sm btn-navy ms-2" (click)="abrirExtrato(c)">
+                <i class="bi bi-receipt me-1"></i>EXTRATO
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="badge-custom bg-blue-subtle" *ngIf="c.conta?.agencia">
+              <i class="bi bi-building me-1"></i>
+              <small>AG:</small> <span>{{ c.conta.agencia.numeroAgencia }}</span>
+            </div>
+
+            <div class="badge-custom bg-purple-subtle">
+              <i class="bi bi-piggy-bank me-1"></i>
+              <small>CC:</small> <span>{{ c.conta?.numeroConta }}-{{ c.conta?.digito }}</span>
+            </div>
+
+            <div class="badge-custom ms-auto"
+              [ngClass]="c.conta?.saldo >= 0 ? 'bg-green-subtle text-success' : 'bg-red-subtle text-danger'">
+              <i class="bi bi-cash-stack me-1"></i>
+              <small>SALDO:</small> <span>{{ c.conta?.saldo | currency:'BRL' }}</span>
+            </div>
+          </div>
+
+          <div [id]="'detalhes' + i" class="collapse mt-3 details-box p-3 rounded">
+            <div class="row g-2 text-muted" style="font-size: 0.85rem;">
+              <div class="col-12 border-bottom pb-2 mb-2">
+                <h6 class="text-dark small-label mb-0"><i class="bi bi-geo-alt-fill text-danger me-1"></i>ENDEREÇO
+                  RESIDENCIAL</h6>
+              </div>
+              <div class="col-md-6">
+                <strong>Logradouro:</strong> {{ c.enderecoCliente?.logradouro }}, {{ c.enderecoCliente?.numero }}
+              </div>
+              <div class="col-md-6 text-end">
+                <span class="loc-badge">
+                  <i class="bi bi-map me-1"></i>{{ c.enderecoCliente?.cidade }} / {{ c.enderecoCliente?.estado }}
+                </span>
+              </div>
+              <div class="col-md-6">
+                <strong>Bairro:</strong> {{ c.enderecoCliente?.bairro }} | <strong>CEP:</strong> {{
+                c.enderecoCliente?.cep }}
+              </div>
+              <div class="col-md-6 text-end">
+                <strong>Comp:</strong> {{ c.enderecoCliente?.complemento || 'N/A' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalExtrato" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark-bank text-white">
+        <h5 class="modal-title header-font text-uppercase">EXTRATO: {{ clienteSelecionado?.nome }}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body bg-light">
+
+        <div class="row g-2 mb-3 align-items-end">
+          <div class="col-md-3">
+            <label class="small-label text-muted">PERÍODO</label>
+            <select class="form-select form-select-sm" [(ngModel)]="periodoSelecionado" (change)="aplicarFiltros()">
+              <option value="3">Últimos 3 dias</option>
+              <option value="7">Últimos 7 dias</option>
+              <option value="30">Últimos 30 dias</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+
+          <ng-container *ngIf="periodoSelecionado === 'custom'">
+            <div class="col-md-3">
+              <label class="small-label text-muted">INÍCIO</label>
+              <input type="date" class="form-select form-select-sm" [(ngModel)]="dataInicio"
+                (change)="aplicarFiltros()">
+            </div>
+            <div class="col-md-3">
+              <label class="small-label text-muted">FIM</label>
+              <input type="date" class="form-select form-select-sm" [(ngModel)]="dataFim" (change)="aplicarFiltros()">
+            </div>
+          </ng-container>
+
+          <div class="col text-end">
+            <button class="btn btn-navy btn-sm w-100" (click)="exportarPDF()">
+              <i class="bi bi-download me-2"></i>DOWNLOAD
+            </button>
+          </div>
+        </div>
+
+        <div class="border rounded bg-white overflow-auto" style="max-height: 450px;" id="secaoExtratoAdmin">
+          <div *ngFor="let grupo of transacoesAgrupadas">
+            <div class="bg-light px-3 py-1 fw-bold text-muted border-bottom small">{{ grupo.data }}</div>
+
+            <div *ngFor="let t of grupo.itens" class="list-group-item border-0 border-bottom px-3 py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <span class="badge bg-light text-muted border me-2" style="font-size: 10px;">#{{ t.id }}</span>
+                  <span class="text-muted small me-3" style="font-size: 11px;">{{ t.dataHora | date:'HH:mm' }}</span>
+
+                  <div>
+                    <span class="fw-bold text-uppercase d-block" style="font-size: 0.85rem;">{{ t.tipo.replace('_', ' ')
+                      }}</span>
+                    <small *ngIf="t.descricao" class="text-muted d-block" style="font-size: 10px;">{{ t.descricao
+                      }}</small>
+                  </div>
+                </div>
+
+                <span class="fw-bold fs-5" [ngClass]="{
+          'text-deposit': t.tipo.includes('DEPOSITO'),
+          'text-saque': t.tipo.includes('SAQUE'),
+          'text-transfer-out': t.tipo.includes('SAIDA') || t.tipo.includes('ENVIADA'),
+          'text-transfer-in': t.tipo.includes('ENTRADA') || t.tipo.includes('RECEBIDA')
+        }">
+                  {{ t.valor | currency:'BRL' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="px-3 py-2 bg-white d-flex justify-content-between border-bottom border-top mt-1">
+              <span class="fw-bold text-muted small text-uppercase">Subtotal do Dia</span>
+              <span class="fw-bold" [ngClass]="grupo.subtotal < 0 ? 'text-danger' : 'text-success'">
+                {{ grupo.subtotal | currency:'BRL' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 bg-white border-top text-end">
+        <span class="text-muted me-2">SUBTOTAL:</span>
+        <span class="fw-bold fs-4 text-navy">{{ clienteSelecionado?.conta?.saldo | currency:'BRL' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

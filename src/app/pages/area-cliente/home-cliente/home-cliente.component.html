@@ -1,0 +1,313 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
+  <div class="container">
+    <a class="navbar-brand header-font brand-color fw-bold" href="#">
+      <span class="brand-badge text-white px-2 rounded me-1">BELEM</span> BANK
+    </a>
+
+    <div class="d-flex align-items-center ms-auto">
+      <div class="me-3 text-end border-end pe-3 d-none d-lg-block">
+        <small class="d-block text-muted fw-bold session-label">SESSÃO EXPIRA EM</small>
+        <span class="badge bg-brand-main header-font">{{ countdownText }}</span>
+      </div>
+
+      <div class="date-time-box-nav text-brand px-2 text-end">
+        <div class="text-uppercase date-text">
+          {{ currentDate }}
+        </div>
+        <div class="header-font fw-bold time-text">
+          {{ currentTime }}
+        </div>
+      </div>
+
+      <button class="btn btn-outline-danger btn-sm ms-3" (click)="logout()">
+        <i class="bi bi-power"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="client-body-bg min-vh-100 pb-5">
+  <div class="container pt-4 fade-in">
+
+    <div class="welcome-banner p-4 mb-4 shadow-sm">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="welcome-text-client mb-1">OLÁ, <span>{{ cliente?.nome }}</span></h2>
+          <p class="mb-0 small"><i class="bi bi-patch-check-fill me-1 text-success"></i> Conta Ativa</p>
+        </div>
+        <div class="text-end">
+          <small class="op-70 d-block small-label">SALDO DISPONÍVEL</small>
+          <h2 class="fw-bold mb-0">{{ cliente?.conta?.saldo | currency:'BRL' }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <button class="btn btn-action-card w-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalDeposito">
+          <div class="action-icon-wrapper bg-light-success">
+            <i class="bi bi-cash-stack"></i>
+          </div>
+          <span class="action-text">DEPOSITAR</span>
+        </button>
+      </div>
+
+      <div class="col-md-4">
+        <button class="btn btn-action-card w-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalSaque">
+          <div class="action-icon-wrapper bg-light-danger">
+            <i class="bi bi-wallet2"></i>
+          </div>
+          <span class="action-text">SACAR</span>
+        </button>
+      </div>
+
+      <div class="col-md-4">
+        <button class="btn btn-action-card w-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTransferir">
+          <div class="action-icon-wrapper bg-light-brand">
+            <i class="bi bi-arrow-left-right"></i>
+          </div>
+          <span class="action-text">TRANSFERIR</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-5">
+        <div class="card border-0 shadow-sm info-card-custom">
+          <div class="card-header bg-transparent border-0 pt-4 px-4">
+            <h6 class="mb-0 fw-bold text-brand small-label">
+              <i class="bi bi-person-badge-fill me-2"></i>MEUS DADOS
+            </h6>
+          </div>
+
+          <div class="card-body px-4 pb-4">
+            <div class="data-group mb-4">
+              <small class="text-uppercase text-muted fw-bold mb-2 d-block label-micro">Agência e Conta</small>
+              <div class="d-flex align-items-center">
+                <span class="fw-bold fs-4 text-dark me-2">{{ cliente?.conta?.agencia?.numeroAgencia }}</span>
+                <span class="text-brand fs-4 fw-light">|</span>
+                <span class="fw-bold fs-4 text-brand ms-2">
+                  {{ cliente?.conta?.numeroConta }}-{{ cliente?.conta?.digito }}
+                </span>
+              </div>
+              <div class="mt-1">
+                <span class="badge rounded-pill bg-light-brand text-brand border border-brand-subtle fw-normal">
+                  <i class="bi bi-bank me-1"></i>{{ cliente?.conta?.agencia?.nome }}
+                </span>
+              </div>
+            </div>
+
+            <hr class="hr-brand">
+
+            <div class="data-group">
+              <small class="text-uppercase text-muted fw-bold mb-2 d-block label-micro">Endereço Residencial</small>
+              <div class="d-flex align-items-start">
+                <i class="bi bi-geo-alt-fill text-brand me-2 mt-1"></i>
+                <div>
+                  <span class="text-dark fw-medium d-block">
+                    {{ cliente?.enderecoCliente?.logradouro }}, {{ cliente?.enderecoCliente?.numero }}
+                  </span>
+                  <span class="text-muted small d-block">
+                    {{ cliente?.enderecoCliente?.complemento }} — {{ cliente?.enderecoCliente?.bairro }}
+                  </span>
+                  <span class="text-muted small d-block">
+                    {{ cliente?.enderecoCliente?.cidade }} / {{ cliente?.enderecoCliente?.estado }}
+                  </span>
+                  <span class="badge cep-badge mt-2">
+                    CEP: {{ cliente?.enderecoCliente?.cep }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-md-7">
+
+        <div class="card shadow-sm border-0 mb-3 bg-light-subtle">
+          <div class="card-body py-3">
+            <div class="row g-3 align-items-end">
+
+              <div class="col-md-2">
+                <label class="label-micro text-muted fw-bold">TIPO</label>
+                <select class="form-select border-0 shadow-sm" [(ngModel)]="filtroTipo" (change)="aplicarFiltros()">
+                  <option value="">Todos</option>
+                  <option value="DEPOSITO">Depósitos</option>
+                  <option value="SAQUE">Saques</option>
+                  <option value="TRANSFERENCIA">Transferências</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="label-micro text-muted fw-bold">PERÍODO</label>
+                <select class="form-select border-0 shadow-sm" [(ngModel)]="periodoSelecionado"
+                  (change)="aplicarFiltros()">
+                  <option value="3">Últimos 3 dias</option>
+                  <option value="7">Últimos 7 dias</option>
+                  <option value="15">Últimos 15 dias</option>
+                  <option value="30">Últimos 30 dias</option>
+                  <option value="custom">Personalizado</option>
+                </select>
+              </div>
+
+              <ng-container *ngIf="periodoSelecionado === 'custom'">
+                <div class="col-md-2">
+                  <label class="label-micro text-muted fw-bold">INÍCIO</label>
+                  <input type="date" class="form-control border-0 shadow-sm" [(ngModel)]="dataInicio"
+                    (change)="aplicarFiltros()">
+                </div>
+                <div class="col-md-2">
+                  <label class="label-micro text-muted fw-bold">FIM</label>
+                  <input type="date" class="form-control border-0 shadow-sm" [(ngModel)]="dataFim"
+                    (change)="aplicarFiltros()">
+                </div>
+              </ng-container>
+
+              <div class="col" [ngClass]="periodoSelecionado === 'custom' ? 'col-md-3' : 'col-md-7'">
+                <button class="btn btn-dark w-100 fw-bold shadow-sm py-2" (click)="exportarHtml()">
+                  <i class="bi bi-file-pdf me-2"></i>GERAR EXTRATO
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm border-0 h-100 card-extrato">
+          <div class="card-header bg-white border-0 pt-3">
+            <h6 class="mb-0 fw-bold text-brand small-label">
+              <i class="bi bi-clock-history me-2"></i>MOVIMENTAÇÕES
+            </h6>
+          </div>
+
+          <div class="card-body p-0" id="secaoExtrato">
+            <div *ngFor="let grupo of transacoesAgrupadas">
+              <div class="bg-light px-3 py-1 fw-bold text-muted border-bottom header-data">
+                {{ grupo.data }}
+              </div>
+
+              <div *ngFor="let t of grupo.itens"
+                class="list-group-item border-0 border-bottom px-3 py-2 transacao-linha">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center flex-grow-1">
+                    <span class="badge bg-secondary-subtle text-muted me-2 id-movimentacao">#{{ t.id }}</span>
+                    <span class="text-muted me-3 small">{{ t.dataHora | date:'HH:mm' }}</span>
+                    <span class="text-dark fw-medium">{{ t.tipo }}</span>
+                  </div>
+                  <div class="ms-3">
+                    <span [ngClass]="{
+              'text-deposit': t.tipo === 'DEPOSITO',
+              'text-transfer-out': t.tipo.includes('ENVIADA'),
+              'text-danger': t.valor < 0,
+              'text-success': t.valor > 0 && t.tipo.includes('RECEBIDA')
+            }" class="fw-bold">
+                      {{ t.valor | currency:'BRL' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-3 py-3 bg-subtotal border-bottom d-flex justify-content-between align-items-center">
+                <small class="text-uppercase fw-bold text-muted">Subtotal do dia</small>
+                <span class="fw-bold fs-5"
+                  [ngClass]="{'text-success': grupo.subtotal > 0, 'text-danger': grupo.subtotal < 0}">
+                  {{ grupo.subtotal | currency:'BRL' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalDeposito" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg modal-custom-radius">
+        <div class="modal-header border-0 pt-4 px-4">
+          <h5 class="modal-title fw-bold text-brand">EFETUAR DEPÓSITO</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            id="closeDeposito"></button>
+        </div>
+        <div class="modal-body px-4 pb-4">
+          <p class="text-muted small mb-4">O valor será creditado na conta de <strong>{{ cliente?.nome }}</strong>.</p>
+
+          <div class="mb-3">
+            <label class="form-label label-micro text-muted fw-bold">VALOR DO DEPÓSITO</label>
+            <div class="input-group input-group-lg">
+              <span class="input-group-text bg-light border-0 text-brand fw-bold">R$</span>
+              <input type="number" class="form-control bg-light border-0 fw-bold" [(ngModel)]="valorOperacao"
+                placeholder="0,00">
+            </div>
+          </div>
+
+          <button class="btn btn-brand-main w-100 py-3 mt-3 shadow-sm fw-bold" (click)="confirmarDeposito()">
+            CONFIRMAR DEPÓSITO
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTransferir" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg modal-custom-radius">
+        <div class="modal-header border-0 pt-4 px-4">
+          <h5 class="modal-title fw-bold text-brand">TRANSFERÊNCIA PIX</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeTransferir"></button>
+        </div>
+        <div class="modal-body px-4 pb-4">
+          <div class="mb-3">
+            <label class="form-label label-micro text-muted fw-bold">NÚMERO DA CONTA DESTINO</label>
+            <input type="text" class="form-control bg-light border-0" [(ngModel)]="contaDestino"
+              placeholder="Ex: 123456">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label label-micro text-muted fw-bold">VALOR A TRANSFERIR</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-0 text-brand fw-bold">R$</span>
+              <input type="number" class="form-control bg-light border-0 fw-bold" [(ngModel)]="valorOperacao">
+            </div>
+          </div>
+
+          <button class="btn btn-brand-main w-100 py-3 mt-3 shadow-sm fw-bold" (click)="confirmarTransferencia()">
+            ENVIAR DINHEIRO
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalSaque" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg modal-custom-radius">
+        <div class="modal-header border-0 pt-4 px-4">
+          <h5 class="modal-title fw-bold text-brand">EFETUAR SAQUE</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeSaque"></button>
+        </div>
+        <div class="modal-body px-4 pb-4">
+          <p class="text-muted small mb-4">O valor será deduzido do seu saldo disponível imediatamente.</p>
+
+          <div class="mb-3">
+            <label class="form-label label-micro text-muted fw-bold">VALOR DO SAQUE</label>
+            <div class="input-group input-group-lg">
+              <span class="input-group-text bg-light border-0 text-danger fw-bold">R$</span>
+              <input type="number" class="form-control bg-light border-0 fw-bold" [(ngModel)]="valorOperacao"
+                placeholder="0,00">
+            </div>
+            <small class="text-muted mt-2 d-block">Saldo disponível: {{ cliente?.conta?.saldo | currency:'BRL'
+              }}</small>
+          </div>
+
+          <button class="btn btn-danger w-100 py-3 mt-3 shadow-sm fw-bold" (click)="confirmarSaque()">
+            CONFIRMAR SAQUE
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

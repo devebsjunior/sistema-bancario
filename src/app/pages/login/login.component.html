@@ -1,0 +1,58 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+  <div class="card login-card shadow-lg border-0">
+    <div class="card-body p-5">
+      
+      <div class="login-header text-center mb-4">
+        <i class="bi bi-shield-lock-fill logo-icon"></i>
+        <h1 class="bank-name mt-2">Belem<span> - Bank</span></h1>
+        <p class="text-muted">Acesse sua conta empresarial</p>
+      </div>
+
+      <form (submit)="$event.preventDefault(); onLogin()">
+        <div class="mb-3">
+          <label for="email" class="form-label fw-bold text-secondary">E-mail ou CPF</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input 
+              type="text" 
+              id="email"
+              class="form-control bg-light border-start-0" 
+              [(ngModel)]="loginForm.email" 
+              name="email" 
+              placeholder="Digite seu acesso"
+              required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label fw-bold text-secondary">Senha</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input 
+              type="password" 
+              id="password"
+              class="form-control bg-light border-start-0" 
+              [(ngModel)]="loginForm.password" 
+              name="password" 
+              placeholder="Sua senha secreta"
+              required>
+          </div>
+        </div>
+
+        <div class="login-actions">
+          <button type="submit" class="btn btn-primary w-100 py-2 fw-bold btn-bank-action">
+            <i class="bi bi-box-arrow-in-right me-2"></i> ENTRAR NO SISTEMA
+          </button>
+          <div class="text-center mt-3">
+            <a href="#" class="forgot-password text-decoration-none small text-muted">Esqueci minha senha</a>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

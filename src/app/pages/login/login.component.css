@@ -1,0 +1,55 @@
+.login-wrapper {
+    min-height: 100vh;
+    background-color: #f1f5f9;
+    padding: 15px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 16px;
+}
+
+.logo-icon {
+    font-size: 3.5rem;
+    color: #1e3a8a;
+}
+
+.bank-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: 700;
+    color: #1e3a8a;
+    letter-spacing: -1px;
+}
+
+.bank-name span {
+    color: #3b82f6;
+}
+
+.btn-bank-action {
+    background-color: #1e3a8a;
+    border: none;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.btn-bank-action:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
+.input-group-text {
+    color: #94a3b8;
+}
+
+@media (max-width: 576px) {
+    .login-wrapper {
+        background-color: #ffffff;
+    }
+
+    .login-card {
+        box-shadow: none !important;
+    }
+}
