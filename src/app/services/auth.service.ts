@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { LoginRequest, UsuarioDTO } from '../models/auth.model';
 import { environment } from '../../environment/environment';
 
@@ -8,7 +8,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API = `${environment.apiUrl}/usuarios`;
+  private readonly API = `${environment.apiUrl}/api/auth`;
   private currentUserSubject: BehaviorSubject<UsuarioDTO | null>;
   public currentUser: Observable<UsuarioDTO | null>;
 
@@ -18,28 +18,63 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
+  // login(credentials: LoginRequest) {
+  //   const payload = {
+  //     login: credentials.email, 
+  //     senha: credentials.password
+  //   };
 
-  login(credentials: any) {
-    return this.http.post<any>(`${this.API}/login`, credentials).pipe(
-      map(user => {
-        this.currentUserSubject.next(user);
-        const userStorage = {
+  //   return this.http.post<any>(`${this.API}/login`, payload).pipe(
+  //     map(user => {
+  //       this.currentUserSubject.next(user);
+
+  //       const userStorage = {
+  //         id: user.id || 1, 
+  //         name: user.nome,  
+  //         perfil: user.perfil,
+  //         token: user.token || ''
+  //       };
+
+  //       localStorage.setItem('user', JSON.stringify(userStorage));
+  //       localStorage.setItem('token', user.token);
+
+  //       return user;
+  //     })
+  //   );
+  // }
+
+  login(credentials: LoginRequest) {
+    const payload = {
+      login: credentials.email,
+      senha: credentials.password
+    };
+
+    return this.http.post<UsuarioDTO>(`${this.API}/login`, payload).pipe(
+      map((user: any) => {
+        console.log("DADOS VINDOS DO BACKEND NO LOGIN:", user);
+
+        const usuarioTratado: UsuarioDTO = {
           id: user.id,
-          name: user.name,
-          perfil: user.perfil,
-          token: user.token
+          nome: user.nome,
+         email: credentials.email,
+          status: 'ACTIVE',
+          token: user.token,
+          perfil: user.perfil
         };
 
-        localStorage.setItem('user', JSON.stringify(userStorage));
+        this.currentUserSubject.next(usuarioTratado);
+
+        localStorage.setItem('user', JSON.stringify(usuarioTratado));
         localStorage.setItem('token', user.token);
 
-        return user;
+        return usuarioTratado;
       })
     );
   }
 
   logout() {
     localStorage.clear();
+    this.currentUserSubject.next(null);
   }
 
   public get currentUserValue(): UsuarioDTO | null {

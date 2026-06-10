@@ -30,7 +30,7 @@ export class LoginComponent {
   onLogin() {
     this.authService.login(this.loginForm).subscribe({
       next: (user: UsuarioDTO) => {
-        this.alertService.successToast(`Bem-vindo, ${user.name}!`);
+        this.alertService.successToast(`Bem-vindo, ${user.nome}!`);
         setTimeout(() => {
           if (user.perfil === 'ADMIN') {
             this.router.navigate(['/dashboard/perfil']);

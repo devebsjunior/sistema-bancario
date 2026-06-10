@@ -1,7 +1,7 @@
 <div class="container-fluid mt-4 fade-in">
   <div class="card shadow border-0">
     <div class="card-header bg-dark-bank text-white d-flex justify-content-between align-items-center p-3">
-      <h4 class="mb-0 header-font text-uppercase">Clientes BelemBank</h4>
+      <h4 class="mb-0 header-font text-uppercase">Clientes Bank Trade Invest</h4>
       <button class="btn btn-primary btn-sm" (click)="novoCliente()">
         <i class="bi bi-person-plus-fill me-2"></i>Novo Cliente
       </button>
@@ -38,43 +38,45 @@
           </div>
 
           <div class="d-flex gap-2 flex-wrap">
-            <div class="badge-custom bg-blue-subtle" *ngIf="c.conta?.agencia">
+
+            <div class="badge-custom bg-blue-subtle">
               <i class="bi bi-building me-1"></i>
-              <small>AG:</small> <span>{{ c.conta.agencia.numeroAgencia }}</span>
+              <small>AG:</small> <span>{{ c.contas?.[0]?.numeroAgencia || '---' }}</span>
             </div>
 
             <div class="badge-custom bg-purple-subtle">
               <i class="bi bi-piggy-bank me-1"></i>
-              <small>CC:</small> <span>{{ c.conta?.numeroConta }}-{{ c.conta?.digito }}</span>
+              <small>CC:</small> <span>{{ c.contas?.[0]?.numeroConta || '---' }}</span>
             </div>
 
             <div class="badge-custom ms-auto"
-              [ngClass]="c.conta?.saldo >= 0 ? 'bg-green-subtle text-success' : 'bg-red-subtle text-danger'">
+              [ngClass]="(c.contas?.[0]?.saldo || 0) >= 0 ? 'bg-green-subtle text-success' : 'bg-red-subtle text-danger'">
               <i class="bi bi-cash-stack me-1"></i>
-              <small>SALDO:</small> <span>{{ c.conta?.saldo | currency:'BRL' }}</span>
+              <small>SALDO:</small> <span>{{ (c.contas?.[0]?.saldo || 0) | currency:'BRL' }}</span>
             </div>
+
           </div>
 
           <div [id]="'detalhes' + i" class="collapse mt-3 details-box p-3 rounded">
             <div class="row g-2 text-muted" style="font-size: 0.85rem;">
               <div class="col-12 border-bottom pb-2 mb-2">
-                <h6 class="text-dark small-label mb-0"><i class="bi bi-geo-alt-fill text-danger me-1"></i>ENDEREÇO
-                  RESIDENCIAL</h6>
+                <h6 class="text-dark small-label mb-0">
+                  <i class="bi bi-geo-alt-fill text-danger me-1"></i>ENDEREÇO RESIDENCIAL
+                </h6>
               </div>
               <div class="col-md-6">
-                <strong>Logradouro:</strong> {{ c.enderecoCliente?.logradouro }}, {{ c.enderecoCliente?.numero }}
+                <strong>Logradouro:</strong> {{ c.endereco?.logradouro }}, {{ c.endereco?.numero }}
               </div>
               <div class="col-md-6 text-end">
                 <span class="loc-badge">
-                  <i class="bi bi-map me-1"></i>{{ c.enderecoCliente?.cidade }} / {{ c.enderecoCliente?.estado }}
+                  <i class="bi bi-map me-1"></i>{{ c.endereco?.cidade }} / {{ c.endereco?.estado }}
                 </span>
               </div>
               <div class="col-md-6">
-                <strong>Bairro:</strong> {{ c.enderecoCliente?.bairro }} | <strong>CEP:</strong> {{
-                c.enderecoCliente?.cep }}
+                <strong>Bairro:</strong> {{ c.endereco?.bairro }} | <strong>CEP:</strong> {{ c.endereco?.cep }}
               </div>
               <div class="col-md-6 text-end">
-                <strong>Comp:</strong> {{ c.enderecoCliente?.complemento || 'N/A' }}
+                <strong>Comp:</strong> {{ c.endereco?.complemento || 'N/A' }}
               </div>
             </div>
           </div>

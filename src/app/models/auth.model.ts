@@ -5,10 +5,10 @@ export interface LoginRequest {
 
 export interface UsuarioDTO {
     id?: number;
-    name: string;
+    nome: string;
     email: string;
     status: string;
-    token?: string;
+    token: string;
     dataCreated?: string;
     dataModified?: string;
     perfil: 'ADMIN' | 'CLIENTE';
