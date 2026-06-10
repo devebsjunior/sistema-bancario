@@ -41,6 +41,7 @@ export class ListarClienteComponent implements OnInit {
     this.clienteService.findAll().subscribe({
       next: (dados: ClienteDTO[]) => {
         this.clientes = dados;
+        console.log("LISTAR-CLIENTES] : ", this.clientes)
       },
       error: (err) => {
         console.error(err);
@@ -107,7 +108,7 @@ export class ListarClienteComponent implements OnInit {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       pdf.setFontSize(22);
       pdf.setTextColor(1, 74, 128);
-      pdf.text('BELEM BANK', 15, 20);
+      pdf.text('BANK TRADE INVEST', 15, 20);
       pdf.setFontSize(10);
       pdf.setTextColor(100);
       pdf.text('Extrato de Movimentações - ADMIN', 15, 26);

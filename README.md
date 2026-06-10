@@ -1,6 +1,6 @@
-# 🏦 Belem Bank - Front-end Experience
+# 🏦 Bank Trade Invest - Front-end Experience
 
-O **Belem Bank** é uma plataforma bancária moderna desenvolvida em **Angular 19**. O foco principal deste projeto é demonstrar o domínio de fluxos assíncronos complexos, gestão de estado reativa com RxJS e uma rigorosa política de **Testes Unitários**, atingindo níveis de cobertura de nível enterprise.
+O **Bank Trade Invest** é uma plataforma bancária moderna desenvolvida em **Angular 19**. O foco principal deste projeto é demonstrar o domínio de fluxos assíncronos complexos, gestão de estado reativa com RxJS e uma rigorosa política de **Testes Unitários**, atingindo níveis de cobertura de nível enterprise.
 
 > **🔗 Link para o Core API (Back-end):** [Acesse o Repositório Dev aqui](link-do-seu-back)
 
@@ -9,7 +9,7 @@ O **Belem Bank** é uma plataforma bancária moderna desenvolvida em **Angular 1
 ## 💎 Destaques Técnicos
 
 ### 🧪 Testes de Alta Cobertura (+97%)
-Diferente de projetos convencionais, o Belem Bank foi construído sob uma cultura de qualidade extrema.
+Diferente de projetos convencionais, o Bank Trade Invest foi construído sob uma cultura de qualidade extrema.
 * **Unit Testing:** Implementação de testes para Components e Services utilizando Jasmine e Karma.
 * **Advanced Mocking:** Mocks avançados para bibliotecas de terceiros como `SweetAlert2`, `html2canvas` e `jsPDF`.
 * **Full Coverage:** Relatórios de cobertura que garantem 100% de sucesso em funções críticas de negócio, como o processamento de extratos e cálculos de saldo.

@@ -24,15 +24,37 @@ export class PerfilComponent implements OnInit {
     this.carregarMetricas();
   }
 
+  // carregarMetricas() {
+  //   this.clienteService.findAll().subscribe({
+  //     next: (dados) => this.totalClientes = dados.length,
+  //     error: (err) => console.error("Erro ao carregar clientes", err)
+  //   });
+    
+  //   this.agenciaService.findAll().subscribe({
+  //     next: (dados) => this.totalAgencias = dados.length,
+  //     error: (err) => console.error("Erro ao carregar agências", err)
+  //   });
+  // }
+
   carregarMetricas() {
     this.clienteService.findAll().subscribe({
-      next: (dados) => this.totalClientes = dados.length,
-      error: (err) => console.error("Erro ao carregar clientes", err)
+      next: (dados) => {
+        this.totalClientes = dados ? dados.length : 0;
+      },
+      error: (err) => {
+        console.warn("Aviso: Nenhum cliente cadastrado.");
+        this.totalClientes = 0;
+      }
     });
     
     this.agenciaService.findAll().subscribe({
-      next: (dados) => this.totalAgencias = dados.length,
-      error: (err) => console.error("Erro ao carregar agências", err)
+      next: (dados) => {
+        this.totalAgencias = dados ? dados.length : 0;
+      },
+      error: (err) => {
+        console.warn("Aviso: Nenhuma agência cadastrada.");
+        this.totalAgencias = 0;
+      }
     });
   }
 }

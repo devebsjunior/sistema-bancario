@@ -17,7 +17,6 @@ export interface ClienteDTO {
   conta?: {
     idConta?: number;
     numeroConta?: string;
-    digito?: string;
     saldo: number;
     agencia?: {
       id?: number; 

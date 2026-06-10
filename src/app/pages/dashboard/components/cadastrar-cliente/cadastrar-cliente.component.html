@@ -122,7 +122,7 @@
 							<select class="form-select" formControlName="id">
 								<option value="">Selecione a Agência...</option>
 								<option *ngFor="let ag of agencias" [value]="ag.id">
-									{{ ag.numeroAgencia }} - {{ ag.nome }}
+									{{ ag.numeroAgencia }} - {{ ag.nomeAgencia }}
 								</option>
 							</select>
 						</div>
@@ -132,10 +132,7 @@
 							<input type="text" class="form-control" formControlName="numeroConta" placeholder="Ex: 12345">
 						</div>
 
-						<div class="col-md-2 mb-3">
-							<label class="fw-bold">Dígito</label>
-							<input type="text" class="form-control" formControlName="digito" maxlength="1">
-						</div>
+					 
 					</div>
 				</div>
 

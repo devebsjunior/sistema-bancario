@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { AgenciaService } from '../../../../services/agencia.service';
@@ -12,7 +12,7 @@ import { CepService } from '../../../../services/cep.service';
   templateUrl: './agencia.component.html',
   styleUrl: './agencia.component.css'
 })
-export class AgenciaComponent {
+export class AgenciaComponent implements OnInit {
 
   agenciaForm!: FormGroup;
   agencias: any[] = [];
@@ -40,21 +40,32 @@ export class AgenciaComponent {
   buscarCep() {
     const cep = this.agenciaForm.get('cep')?.value;
     if (cep?.length >= 8) {
-      this.cepService.buscar(cep).subscribe(dados => {
-        if (!dados.erro) {
-          this.agenciaForm.patchValue({
-            logradouro: dados.logradouro,
-            bairro: dados.bairro,
-            cidade: dados.localidade,
-            estado: dados.uf
-          });
+      this.cepService.buscar(cep).subscribe({
+        next: (dados) => {
+          if (!dados.erro) {
+            this.agenciaForm.patchValue({
+              logradouro: dados.logradouro,
+              bairro: dados.bairro,
+              cidade: dados.localidade,
+              estado: dados.uf
+            });
+          }
         }
       });
     }
   }
 
   carregarAgencias() {
-    this.agenciaService.findAll().subscribe(dados => this.agencias = dados);
+    this.agenciaService.findAll().subscribe({
+      next: (agencias) => {
+        this.agencias = agencias;
+        console.log("[AGENCIAS] : ", this.agencias)
+      },
+      error: (err) => {
+        console.warn('Aviso: Não foi possível carregar as agências. Usuário não autenticado ou sem permissão.', err);
+        this.agencias = [];
+      }
+    });
   }
 
   salvar() {
@@ -62,16 +73,14 @@ export class AgenciaComponent {
       const formValue = this.agenciaForm.value;
 
       const dadosParaEnviar = {
-        nome: formValue.nome,
+        nomeAgencia: formValue.nome,
         numeroAgencia: formValue.numeroAgencia,
-        enderecoAgencia: {
-          logradouro: formValue.logradouro,
-          numero: formValue.numero,
-          bairro: formValue.bairro,
-          cidade: formValue.cidade,
-          estado: formValue.estado,
-          cep: formValue.cep
-        }
+        logradouro: formValue.logradouro,
+        numero: formValue.numero,
+        bairro: formValue.bairro,
+        cidade: formValue.cidade,
+        estado: formValue.estado,
+        cep: formValue.cep
       };
 
       this.agenciaService.cadastrar(dadosParaEnviar).subscribe({
@@ -91,5 +100,4 @@ export class AgenciaComponent {
   limparFormulario() {
     this.agenciaForm.reset();
   }
-
 }

@@ -36,7 +36,6 @@ export class CadastrarClienteComponent implements OnInit {
 
       conta: this.fb.group({
         numeroConta: ['', Validators.required],
-        digito: ['', [Validators.required, Validators.maxLength(1)]],
         saldo: [0],
         agencia: this.fb.group({
           id: ['', Validators.required]
@@ -129,7 +128,6 @@ export class CadastrarClienteComponent implements OnInit {
         },
         conta: {
           numeroConta: formValue.conta.numeroConta,
-          digito: formValue.conta.digito,
           saldo: 0,
           agencia: {
             id: Number(formValue.conta.agencia.id)

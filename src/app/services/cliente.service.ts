@@ -8,7 +8,7 @@ import { ClienteDTO } from '../models/cliente.model';
   providedIn: 'root'
 })
 export class ClienteService {
-  private readonly API = `${environment.apiUrl}/clientes`;
+  private readonly API = `${environment.apiUrl}/api/clientes`;
 
   constructor(private http: HttpClient) { }
 
