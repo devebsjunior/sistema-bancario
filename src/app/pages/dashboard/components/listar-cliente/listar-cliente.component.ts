@@ -53,9 +53,14 @@ export class ListarClienteComponent implements OnInit {
   novoCliente() {
     this.router.navigate(['/dashboard/cadastrar-cliente']);
   }
-  
+
   abrirExtrato(cliente: any) {
     this.clienteSelecionado = cliente;
+
+    if (cliente.contas && cliente.contas.length > 0) {
+      cliente.conta = cliente.contas[0];
+    }
+
     const idConta = cliente.conta?.idConta || cliente.conta?.id;
 
     if (idConta) {
@@ -67,6 +72,8 @@ export class ListarClienteComponent implements OnInit {
         },
         error: () => Swal.fire('Erro', 'Falha ao buscar as transações.', 'error')
       });
+    } else {
+      Swal.fire('Atenção', 'Este cliente não possui nenhuma conta ativa.', 'warning');
     }
   }
 
@@ -120,9 +127,9 @@ export class ListarClienteComponent implements OnInit {
       pdf.text(agCC, pdfWidth - 15, 26, { align: 'right' });
       pdf.setDrawColor(200);
       pdf.line(15, 32, pdfWidth - 15, 32);
-      pdf.setFont('helvetica', 'bold'); 
+      pdf.setFont('helvetica', 'bold');
       pdf.text(textoPeriodo.toUpperCase(), 15, 38);
-      pdf.setFont('helvetica', 'normal'); 
+      pdf.setFont('helvetica', 'normal');
       pdf.text(`Gerado em: ${hoje.toLocaleString('pt-BR')}`, 15, 43);
 
       const saldoVal = c.conta?.saldo || 0;

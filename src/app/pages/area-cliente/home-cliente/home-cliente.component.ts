@@ -41,18 +41,26 @@ export class HomeClienteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.iniciarTimer();
     const userLogado = this.authService.currentUserValue;
-    if (userLogado && userLogado.id) {
-      this.clienteService.findById(userLogado.id).subscribe({
-        next: (res) => {
-          this.cliente = res;
-          const idContaReal = res.conta?.idConta || res.conta?.id;
+    
+    const idCliente = userLogado?.id || JSON.parse(localStorage.getItem('user') || '{}').id;
 
+    if (idCliente) {
+      this.clienteService.findById(idCliente).subscribe({
+        next: (res) => {
+          if (res.contas && res.contas.length > 0) {
+            res.conta = res.contas[0];
+          }
+          this.cliente = res;
+          
+          const idContaReal = res.conta?.idConta || res.conta?.id;
           if (idContaReal) {
             this.carregarExtrato(idContaReal);
           }
         },
-        error: (err) => console.error("Erro ao carregar cliente", err)
+        error: (err) => console.error("Erro ao carregar dados do cliente", err)
       });
+    } else {
+      console.error("Nenhum ID de cliente foi encontrado na sessão.");
     }
   }
 
@@ -240,6 +248,7 @@ export class HomeClienteComponent implements OnInit, OnDestroy {
       '1234';
 
     const numConta = this.cliente?.conta?.numeroConta || '000000';
+    const digito = this.cliente?.conta?.digito || '0';
     const nomeCliente = this.cliente?.nome || 'Cliente';
     const saldoFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
       .format(this.cliente?.conta?.saldo || 0);
@@ -269,12 +278,12 @@ export class HomeClienteComponent implements OnInit, OnDestroy {
       <body>
         <div class="header-pdf d-flex justify-content-between align-items-center">
           <div>
-            <h1 class="text-brand m-0">BANK TRADE INVEST</h1>
+            <h1 class="text-brand m-0">BELEM TRADE INVEST</h1>
             <p class="m-0 text-muted">Extrato de Movimentações</p>
           </div>
           <div class="text-end">
             <h5 class="m-0">${nomeCliente}</h5>
-            <p class="m-0 small">Agência: <strong>${agenciaReal}</strong> | Conta: <strong>${numConta}</strong></p>
+            <p class="m-0 small">Agência: <strong>${agenciaReal}</strong> | Conta: <strong>${numConta}-${digito}</strong></p>
           </div>
         </div>
         <div class="row mb-4">

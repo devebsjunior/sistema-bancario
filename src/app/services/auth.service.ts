@@ -45,25 +45,25 @@ export class AuthService {
 
   login(credentials: LoginRequest) {
     const payload = {
-      login: credentials.email, // Aqui vai o número da conta digitado na tela
+      login: credentials.email,
       senha: credentials.password
     };
 
     return this.http.post<UsuarioDTO>(`${this.API}/login`, payload).pipe(
       map((user: any) => {
-        // Cria o objeto adaptando a resposta crua do Java para o DTO do Angular
+        console.log("DADOS VINDOS DO BACKEND NO LOGIN:", user);
+
         const usuarioTratado: UsuarioDTO = {
+          id: user.id,
           nome: user.nome,
-          email: '', // O Java não mandou e-mail, deixamos vazio para não quebrar o compilador
+         email: credentials.email,
           status: 'ACTIVE',
           token: user.token,
-          perfil: user.perfil // Recebe 'ADMIN' ou 'CLIENTE' direto do Java
+          perfil: user.perfil
         };
 
-        // Notifica o BehaviorSubject com os dados tratados
         this.currentUserSubject.next(usuarioTratado);
 
-        // Salva no LocalStorage o objeto estruturado e o Token string
         localStorage.setItem('user', JSON.stringify(usuarioTratado));
         localStorage.setItem('token', user.token);
 

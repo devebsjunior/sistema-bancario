@@ -9,6 +9,7 @@ import { ClienteDTO } from '../models/cliente.model';
 })
 export class ClienteService {
   private readonly API = `${environment.apiUrl}/api/clientes`;
+  private readonly TRANSACOES_API = `${environment.apiUrl}/transacoes`;
 
   constructor(private http: HttpClient) { }
 
@@ -24,20 +25,20 @@ export class ClienteService {
     return this.http.get<any>(`${this.API}/${id}`);
   }
 
-  depositar(contaId: number, valor: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/contas/${contaId}/deposito?valor=${valor}`, {});
+ depositar(contaId: number, valor: number): Observable<any> {
+    return this.http.post<any>(`${this.TRANSACOES_API}/deposito`, { contaId, valor });
   }
 
   sacar(contaId: number, valor: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/contas/${contaId}/saque?valor=${valor}`, {});
+    return this.http.post<any>(`${this.TRANSACOES_API}/saque`, { contaId, valor });
   }
 
   transferir(contaOrigemId: number, contaDestino: string, valor: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/contas/${contaOrigemId}/transferir?contaDestino=${contaDestino}&valor=${valor}`, {});
+    return this.http.post<any>(`${this.TRANSACOES_API}/transferencia`, { contaOrigemId, contaDestino, valor });
   }
 
   listarTransacoes(contaId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/transacoes/conta/${contaId}`);
+    return this.http.get<any[]>(`${this.TRANSACOES_API}/conta/${contaId}`);
   }
 
 }
